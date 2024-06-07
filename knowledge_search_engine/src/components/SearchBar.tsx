@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import axios from "axios";
-import { Button, ButtonGroup, Stack } from "@chakra-ui/react";
+import { Button, ButtonGroup, Link, Stack } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 
 interface Suggestion {
@@ -45,18 +46,18 @@ export default function SearchBar() {
 
   const handleSearch = () => {
     if (query) {
-      //router.push(`/search?q=${query}`);
+      //router.push(`/searchResults?q=${query}`);
     }
   };
 
   return (
     <div className="relative w-full max-w-md mx-auto mt-5">
-      <Stack direction="row" spacing={4}>
+      <Stack direction="row" spacing={4} alignItems="center">
         <input
           type="text"
           value={query}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-zinc-950  "
+          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 bg-white text-zinc-950  "
           placeholder="搜索"
         />
 
@@ -66,7 +67,7 @@ export default function SearchBar() {
           variant="solid"
           onClick={handleSearch}
           paddingLeft={2}
-        />
+        ></Button>
       </Stack>
 
       {/*showSuggestions && suggestions.length > 0 && (
