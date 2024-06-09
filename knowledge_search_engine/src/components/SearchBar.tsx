@@ -1,11 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Button, ButtonGroup, Link, Stack } from "@chakra-ui/react";
+import {
+  Button,
+  Container,
+  Link,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
+import MicIcon from "@mui/icons-material/Mic";
+import Image from "next/image";
 
 interface Suggestion {
   id: number;
@@ -17,6 +31,15 @@ export default function SearchBar() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   //const router = useRouter();
+  const [recognizing, setRecognizing] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    if (!("webkitSpeechRecognition" in window)) {
+      console.error("Web Speech API is not supported by this browser.");
+      return;
+    }
+  }, []);
 
   const fetchSuggestions = async (searchTerm: string) => {
     if (searchTerm.length > 0) {
@@ -50,6 +73,42 @@ export default function SearchBar() {
     }
   };
 
+  const startRecognition = () => {
+    if (!("webkitSpeechRecognition" in window)) return;
+
+    const recognition = new window.webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    //recognition.lang = "en-US";
+    recognition.lang = "zh-CN";
+
+    recognition.onstart = () => {
+      setRecognizing(true);
+      onOpen();
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setQuery(transcript);
+      fetchSuggestions(transcript);
+      setRecognizing(false);
+      onClose();
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error", event.error);
+      setRecognizing(false);
+      onClose();
+    };
+
+    recognition.onend = () => {
+      setRecognizing(false);
+      onClose();
+    };
+
+    recognition.start();
+  };
+
   return (
     <div className="relative w-full max-w-md mx-auto mt-5">
       <Stack direction="row" spacing={4} alignItems="center">
@@ -68,6 +127,9 @@ export default function SearchBar() {
           onClick={handleSearch}
           paddingLeft={2}
         ></Button>
+        <Button onClick={startRecognition} colorScheme="blue" variant="solid">
+          <MicIcon />
+        </Button>
       </Stack>
 
       {/*showSuggestions && suggestions.length > 0 && (
@@ -85,6 +147,33 @@ export default function SearchBar() {
       )*/}
 
       <text className="text-slate-950">{query}</text>
+      <div className="justify-center align-middle">
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Listening...</ModalHeader>
+            <ModalBody>
+              <div className="mb-3">
+                <Image
+                  src="/microphone_remove_bg.png"
+                  alt="micrphone image"
+                  width={400}
+                  height={270}
+                />
+              </div>
+              <div className="justify-center flex mb-3">
+                <h4 className="text-2xl font-sans">Try speak something!</h4>
+              </div>
+              <div className="justify-center flex">
+                <h4 className="text-2xl font-sans">您说，我在听~</h4>
+              </div>
+            </ModalBody>
+            <ModalFooter>
+              <Button onClick={onClose}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </div>
     </div>
   );
 }
