@@ -26,21 +26,25 @@ def generate_actions(json_items):
                 "label": item["label"],
                 "type": item["type"],
                 "source": item["source"],
-                "description": item["description"]
+                "description": item["description"],
+                "concepts": item["concepts"],
+                "instances": item["instances"],
+                "properties": item["properties"],
+                "url": item["url"],
             }
         }
 
 def main():
     # 实例化Elasticsearch客户端
     client = Elasticsearch(
-        "https://localhost:9200",  # 替换为你的Elasticsearch endpoint
-        api_key="NTlmWThZOEJqVTZfcks2cmRiRWU6VWtuMGxRRzZTZUdFMm1jRHp1R2ZoUQ==",  # 替换为你的API key
-        verify_certs=False,  # 忽略证书验证
+        "https://localhost:9200",
+        api_key="THBQNl9JOEJhQUQ0VUdnUEsxYjU6cllZbU05UHhTejY0SGpSYmQxa3R4QQ==",  # 替换为你的API key
+        verify_certs=False,
         ssl_show_warn=False
     )
     
     # 加载JSON数据并限制文档数量
-    json_items = load_and_limit_json_items('instance.json', 3505391)  # 限制为100000个文档
+    json_items = load_and_limit_json_items('bdi.json')
 
     # 使用批量API导入数据
     success, _ = bulk(client, generate_actions(json_items))
