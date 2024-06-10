@@ -23,14 +23,16 @@ def generate_actions(json_items):
             "_index": "my_index",  # 指定要导入的索引名
             "_id": item["id"],
             "_source": {
-                "label": item["label"],
-                "type": item["type"],
-                "source": item["source"],
-                "description": item["description"],
-                "concepts": item["concepts"],
-                "instances": item["instances"],
-                "properties": item["properties"],
-                "url": item["url"],
+                "label": item.get("label", ""),
+                "type": item.get("type", ""),
+                "source": item.get("source", ""),
+                "description": item.get("description", ""),
+                "concepts": item.get("concepts", []),
+                "hypernymy": item.get("hypernymy", []),
+                "hyponymy": item.get("hyponymy", []),
+                "instances": item.get("instances", []),
+                "properties": item.get("properties", []),
+                "url": item.get("url", "")
             }
         }
 
@@ -38,13 +40,13 @@ def main():
     # 实例化Elasticsearch客户端
     client = Elasticsearch(
         "https://localhost:9200",
-        api_key="THBQNl9JOEJhQUQ0VUdnUEsxYjU6cllZbU05UHhTejY0SGpSYmQxa3R4QQ==",  # 替换为你的API key
+        api_key="bENwc0JKQUJtQkV3TXpTWE9kMUY6aGpYd2N4aGZUNXUzQ2FrMnB0Y0J4Zw==",  # 替换为你的API key
         verify_certs=False,
         ssl_show_warn=False
     )
     
     # 加载JSON数据并限制文档数量
-    json_items = load_and_limit_json_items('bdi.json')
+    json_items = load_and_limit_json_items('zhi.json') # 'bdi.json/eni.json/instance.json/zhi.json/bdc.json/concept.json/enc.json/zhc.json'
 
     # 使用批量API导入数据
     success, _ = bulk(client, generate_actions(json_items))

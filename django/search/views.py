@@ -5,7 +5,7 @@ from django.http import JsonResponse
 def get_es_client():
     client = Elasticsearch(
         "https://localhost:9200",
-        api_key="THBQNl9JOEJhQUQ0VUdnUEsxYjU6cllZbU05UHhTejY0SGpSYmQxa3R4QQ==", # 替换为你的API key
+        api_key="bENwc0JKQUJtQkV3TXpTWE9kMUY6aGpYd2N4aGZUNXUzQ2FrMnB0Y0J4Zw==", # Replace with your API key
         verify_certs=False,
         ssl_show_warn=False
     )
@@ -17,15 +17,18 @@ def search(request):
     response = client.search(index="my_index", body={"query": {"match": {"label": query}}})
     contents = []
     for hit in response['hits']['hits']:
+        source = hit.get("_source", {})
         content = {
-            "id": hit["_id"],
-            "label": hit["_source"]["label"],
-            "type": hit["_source"]["type"],
-            "source": hit["_source"]["source"],
-            "description": hit["_source"]["description"],
-            "concepts": hit["_source"]["concepts"],
-            "instances": hit["_source"]["instances"],
-            "url": hit['_source']["url"],
+            "id": hit.get("_id", ""),
+            "label": source.get("label", ""),
+            "type": source.get("type", ""),
+            "source": source.get("source", ""),
+            "description": source.get("description", ""),
+            "concepts": source.get("concepts", []),
+            "hypernymy": source.get("hypernymy", []),
+            "hyponymy": source.get("hyponymy", []),
+            "instances": source.get("instances", []),
+            "url": source.get("url", ""),
         }
         contents.append(content)
     return JsonResponse({"content": contents}, json_dumps_params={'ensure_ascii': False})
@@ -34,15 +37,18 @@ def item(request):
     item_id = request.GET.get('id', '')
     client = get_es_client()
     response = client.get(index="my_index", id=item_id)
+    source = response.get('_source', {})
     item_data = {
-        "id": response['_id'],
-        "label": response['_source']["label"],
-        "type": response['_source']["type"],
-        "source": response['_source']["source"],
-        "description": response['_source']["description"],
-        "concepts": response['_source']["concepts"],
-        "instances": response['_source']["instances"],
-        "properties": response['_source']["properties"],
-        "url": response['_source']["url"],
+        "id": response.get('_id', ''),
+        "label": source.get("label", ""),
+        "type": source.get("type", ""),
+        "source": source.get("source", ""),
+        "description": source.get("description", ""),
+        "concepts": source.get("concepts", []),
+        "hypernymy": source.get("hypernymy", []),
+        "hyponymy": source.get("hyponymy", []),
+        "instances": source.get("instances", []),
+        "properties": source.get("properties", {}),
+        "url": source.get("url", ""),
     }
     return JsonResponse(item_data, json_dumps_params={'ensure_ascii': False})
