@@ -12,6 +12,8 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Radio,
+  RadioGroup,
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -22,8 +24,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import Image from "next/image";
 
 interface Suggestion {
-  id: number;
-  term: string;
+  word: string;
 }
 
 export default function SearchBar() {
@@ -33,6 +34,7 @@ export default function SearchBar() {
   //const router = useRouter();
   const [recognizing, setRecognizing] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [language, setLanguage] = useState("zh-CN");
 
   useEffect(() => {
     if (!("webkitSpeechRecognition" in window)) {
@@ -41,18 +43,36 @@ export default function SearchBar() {
     }
   }, []);
 
-  const fetchSuggestions = async (searchTerm: string) => {
-    if (searchTerm.length > 0) {
-      try {
-        const response = await axios.get(`/api/searchResults?q=${searchTerm}`);
-        setSuggestions(response.data);
-        setShowSuggestions(true);
-      } catch (error) {
-        console.error("Error fetcing suggestions: ", error);
-      }
+  const fetchEnglishSuggestions = async (query: string) => {
+    if (!query) return;
+    try {
+      const response = await axios.get(
+        `https://api.datamuse.com/sug?s=${query}`
+      );
+      setSuggestions(response.data);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+  };
+
+  const fetchChineseSuggestions = async (query: string) => {
+    if (!query) return;
+    try {
+      const response = await axios.get(
+        `https://suggestion.baidu.com/su?wd=${query}&cb=callback`
+      );
+      const data = JSON.parse(response.data.match(/callback\((.*)\)/)[1]);
+      setSuggestions(data.s.map((term: string) => ({ word: term })));
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
+  };
+
+  const fetchSuggestions = (query: string) => {
+    if (language == "en-US") {
+      fetchEnglishSuggestions(query);
     } else {
-      setSuggestions([]);
-      setShowSuggestions(false);
+      fetchChineseSuggestions(query);
     }
   };
 
@@ -79,8 +99,7 @@ export default function SearchBar() {
     const recognition = new window.webkitSpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = false;
-    //recognition.lang = "en-US";
-    recognition.lang = "zh-CN";
+    recognition.lang = language;
 
     recognition.onstart = () => {
       setRecognizing(true);
@@ -111,12 +130,24 @@ export default function SearchBar() {
 
   return (
     <div className="relative w-full max-w-md mx-auto mt-5">
+      <div className="flex justify-center mb-4 bg-">
+        <RadioGroup onChange={setLanguage} value={language} colorScheme="cyan">
+          <Stack direction="row" spacing={6}>
+            <Radio value="zh-CN">
+              <text className=" text-slate-950">中文</text>
+            </Radio>
+            <Radio value="en-US">
+              <text className=" text-slate-950">English</text>
+            </Radio>
+          </Stack>
+        </RadioGroup>
+      </div>
       <Stack direction="row" spacing={4} alignItems="center">
         <input
           type="text"
           value={query}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 bg-white text-zinc-950  "
+          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-300 bg-white text-zinc-950  "
           placeholder="搜索"
         />
 
@@ -132,19 +163,19 @@ export default function SearchBar() {
         </Button>
       </Stack>
 
-      {/*showSuggestions && suggestions.length > 0 && (
-        <ul className="absolute w-full bg-white border border-gray-300 rounded-md mt-1 max-h-60 overflow-y-auto">
-          {suggestions.map((suggestion) => (
+      {suggestions.length > 0 && (
+        <ul className="absolute w-full mt-2 bg-white border border-gray-300 rounded-md shadow-lg">
+          {suggestions.map((suggestion, index) => (
             <li
-              key={suggestion.id}
-              className="p-2 cursor-pointer hover:bg-gray-200"
-              onClick={() => handleSuggestionClick(suggestion)}
+              key={index}
+              className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+              onClick={() => setQuery(suggestion.word)}
             >
-              {suggestion.term}
+              {suggestion.word}
             </li>
           ))}
         </ul>
-      )*/}
+      )}
 
       <text className="text-slate-950">{query}</text>
       <div className="justify-center align-middle">
