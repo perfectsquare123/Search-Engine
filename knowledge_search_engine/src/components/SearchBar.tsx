@@ -22,6 +22,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import MicIcon from "@mui/icons-material/Mic";
 import Image from "next/image";
+import { autoFill } from "./chineseAutoComplete";
 
 interface Suggestion {
   word: string;
@@ -75,16 +76,9 @@ export default function SearchBar() {
 
   const fetchChineseSuggestions = async (query: string) => {
     if (!query) return;
-    try {
-      const response = await axios.get(
-        `https://suggestion.baidu.com/su?wd=${query}&cb=callback`
-      );
-      const data = JSON.parse(response.data.match(/callback\((.*)\)/)[1]);
-      setSuggestions(data.s.map((term: string) => ({ word: term })));
-      setShowSuggestions(true); // Open suggestions list when new suggestions are fetched
-    } catch (error) {
-      console.error("Error fetching suggestions:", error);
-    }
+    const data = autoFill(query);
+    setSuggestions(data.map((term: any) => ({ word: term })));
+    setShowSuggestions(true);
   };
 
   const fetchSuggestions = (query: string) => {

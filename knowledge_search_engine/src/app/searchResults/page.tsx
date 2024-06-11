@@ -321,135 +321,136 @@ export default function SearchResults() {
           Know<span className="text-6xl font-bold text-cyan-400">U</span>
         </h1>
         <SearchBar />
+        <div>
+          {example.answer.length > 0 ? (
+            <div className="w-full max-w-3xl mt-8 bg-white p-6 rounded-lg shadow-md">
+              <h3 className="text-xl text-zinc-800 mb-1">{example.answer}</h3>
+            </div>
+          ) : (
+            ""
+          )}
 
-        {example.answer.length > 0 ? (
           <div className="w-full max-w-3xl mt-8 bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-xl text-zinc-800 mb-1">{example.answer}</h3>
-          </div>
-        ) : (
-          ""
-        )}
-
-        <div className="w-full max-w-3xl mt-8 bg-white p-6 rounded-lg shadow-md">
-          {example.content.map((result) => (
-            <div key={result.id} className="mb-5">
-              <Stack direction="row" spacing={3} alignItems="center">
-                <h3 className="text-2xl font-bold text-cyan-700 mb-1">
-                  {result.label}
-                </h3>
-                {result.type ? (
-                  result.type == "instance" ? (
-                    <Tag
-                      variant="subtle"
-                      colorScheme="cyan"
-                      boxSize="fit-content"
-                    >
-                      {result.type}
-                    </Tag>
+            {example.content.map((result) => (
+              <div key={result.id} className="mb-5">
+                <Stack direction="row" spacing={3} alignItems="center">
+                  <h3 className="text-2xl font-bold text-cyan-700 mb-1">
+                    {result.label}
+                  </h3>
+                  {result.type ? (
+                    result.type == "instance" ? (
+                      <Tag
+                        variant="subtle"
+                        colorScheme="cyan"
+                        boxSize="fit-content"
+                      >
+                        {result.type}
+                      </Tag>
+                    ) : (
+                      <Tag
+                        variant="subtle"
+                        colorScheme="purple"
+                        boxSize="fit-content"
+                      >
+                        {result.type}
+                      </Tag>
+                    )
                   ) : (
-                    <Tag
-                      variant="subtle"
-                      colorScheme="purple"
-                      boxSize="fit-content"
-                    >
-                      {result.type}
-                    </Tag>
-                  )
+                    ""
+                  )}
+                </Stack>
+                <p className="text-gray-700 mt-4">{result.description}</p>
+
+                {result.concepts.length > 0 ? (
+                  <div className="mt-5">
+                    <Stack direction="row" spacing={2}>
+                      <h6 className="font-extralight text-gray-500 text-sm ml-4">
+                        Concepts 概念类型
+                      </h6>
+                      {result.concepts.map((concept) => (
+                        <Button variant="ghost" colorScheme="blue" size="xs">
+                          {concept.label}
+                        </Button>
+                      ))}
+                    </Stack>
+                  </div>
                 ) : (
                   ""
                 )}
-              </Stack>
-              <p className="text-gray-700 mt-4">{result.description}</p>
 
-              {result.concepts.length > 0 ? (
-                <div className="mt-5">
-                  <Stack direction="row" spacing={2}>
-                    <h6 className="font-extralight text-gray-500 text-sm ml-4">
-                      Concepts 概念类型
-                    </h6>
-                    {result.concepts.map((concept) => (
-                      <Button variant="ghost" colorScheme="blue" size="xs">
-                        {concept.label}
-                      </Button>
-                    ))}
-                  </Stack>
+                {result.hypernymy.length > 0 ? (
+                  <div className="mt-5">
+                    <Stack direction="row" spacing={2}>
+                      <h6 className="font-extralight text-gray-500 text-sm ml-4">
+                        hypernymy 上位关系列表
+                      </h6>
+                      {result.hypernymy.map((hypernymy) => (
+                        <Button variant="ghost" colorScheme="blue" size="xs">
+                          {hypernymy.label}
+                        </Button>
+                      ))}
+                    </Stack>
+                  </div>
+                ) : (
+                  ""
+                )}
+
+                {result.hyponymy.length > 0 ? (
+                  <div className="mt-5">
+                    <Stack direction="row" spacing={2}>
+                      <h6 className="font-extralight text-gray-500 text-sm ml-4">
+                        hyponymy 下位关系列表
+                      </h6>
+                      {result.hyponymy.map((hyponymy) => (
+                        <Button variant="ghost" colorScheme="blue" size="xs">
+                          {hyponymy.label}
+                        </Button>
+                      ))}
+                    </Stack>
+                  </div>
+                ) : (
+                  ""
+                )}
+
+                {result.instances.length > 0 ? (
+                  <div className="mt-4">
+                    <Stack direction="row" spacing={2}>
+                      <h6 className="font-extralight text-gray-500 text-sm ml-4">
+                        Instances 实例
+                      </h6>
+                      {result.instances.map((instance) => (
+                        <Button variant="ghost" colorScheme="cyan" size="xs">
+                          {instance.label}
+                        </Button>
+                      ))}
+                    </Stack>
+                  </div>
+                ) : (
+                  ""
+                )}
+
+                {result.url.length > 0 ? (
+                  <div className="mt-4">
+                    <Stack direction="row" spacing={4}>
+                      <h6 className="font-extralight text-gray-500 text-sm ml-4">
+                        Source URL 出处链接
+                      </h6>
+
+                      <Link href={result.url} isExternal color="darkblue">
+                        Link <ExternalLinkIcon mx="2px" />
+                      </Link>
+                    </Stack>
+                  </div>
+                ) : (
+                  ""
+                )}
+
+                <div className="my-8">
+                  <Divider orientation="horizontal" />
                 </div>
-              ) : (
-                ""
-              )}
-
-              {result.hypernymy.length > 0 ? (
-                <div className="mt-5">
-                  <Stack direction="row" spacing={2}>
-                    <h6 className="font-extralight text-gray-500 text-sm ml-4">
-                      hypernymy 上位关系列表
-                    </h6>
-                    {result.hypernymy.map((hypernymy) => (
-                      <Button variant="ghost" colorScheme="blue" size="xs">
-                        {hypernymy.label}
-                      </Button>
-                    ))}
-                  </Stack>
-                </div>
-              ) : (
-                ""
-              )}
-
-              {result.hyponymy.length > 0 ? (
-                <div className="mt-5">
-                  <Stack direction="row" spacing={2}>
-                    <h6 className="font-extralight text-gray-500 text-sm ml-4">
-                      hyponymy 下位关系列表
-                    </h6>
-                    {result.hyponymy.map((hyponymy) => (
-                      <Button variant="ghost" colorScheme="blue" size="xs">
-                        {hyponymy.label}
-                      </Button>
-                    ))}
-                  </Stack>
-                </div>
-              ) : (
-                ""
-              )}
-
-              {result.instances.length > 0 ? (
-                <div className="mt-4">
-                  <Stack direction="row" spacing={2}>
-                    <h6 className="font-extralight text-gray-500 text-sm ml-4">
-                      Instances 实例
-                    </h6>
-                    {result.instances.map((instance) => (
-                      <Button variant="ghost" colorScheme="cyan" size="xs">
-                        {instance.label}
-                      </Button>
-                    ))}
-                  </Stack>
-                </div>
-              ) : (
-                ""
-              )}
-
-              {result.url.length > 0 ? (
-                <div className="mt-4">
-                  <Stack direction="row" spacing={4}>
-                    <h6 className="font-extralight text-gray-500 text-sm ml-4">
-                      Source URL 出处链接
-                    </h6>
-
-                    <Link href={result.url} isExternal color="darkblue">
-                      Link <ExternalLinkIcon mx="2px" />
-                    </Link>
-                  </Stack>
-                </div>
-              ) : (
-                ""
-              )}
-
-              <div className="my-8">
-                <Divider orientation="horizontal" />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
