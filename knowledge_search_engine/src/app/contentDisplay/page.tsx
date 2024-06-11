@@ -52,6 +52,7 @@ const contentData = {
       id: "概念ID 2",
       label: "概念名称 2",
     },
+
     // ...
   ],
   hypernymy: [
@@ -193,11 +194,13 @@ export default function ContentDisplay() {
                 Concept 概念类型
               </h4>
               <Stack direction="row" spacing={2} className="mt-2">
-                {contentData.concepts.map((concept) => (
-                  <Button variant="ghost" colorScheme="cyan" size="sm">
-                    {concept.label}
-                  </Button>
-                ))}
+                <div>
+                  {contentData.concepts.map((concept) => (
+                    <Button variant="ghost" colorScheme="cyan" size="sm">
+                      {concept.label}
+                    </Button>
+                  ))}
+                </div>
               </Stack>
             </div>
           ) : (
@@ -210,11 +213,13 @@ export default function ContentDisplay() {
                 hypernymy 上位关系列表
               </h4>
               <Stack direction="row" spacing={2} className="mt-2">
-                {contentData.hypernymy.map((hypernymy) => (
-                  <Button variant="ghost" colorScheme="cyan" size="sm">
-                    {hypernymy.label}
-                  </Button>
-                ))}
+                <div>
+                  {contentData.hypernymy.map((hypernymy) => (
+                    <Button variant="ghost" colorScheme="cyan" size="sm">
+                      {hypernymy.label}
+                    </Button>
+                  ))}
+                </div>
               </Stack>
             </div>
           ) : (
@@ -227,11 +232,13 @@ export default function ContentDisplay() {
                 hyponymy 下位关系列表
               </h4>
               <Stack direction="row" spacing={2} className="mt-2">
-                {contentData.hyponymy.map((hyponymy) => (
-                  <Button variant="ghost" colorScheme="cyan" size="sm">
-                    {hyponymy.label}
-                  </Button>
-                ))}
+                <div>
+                  {contentData.hyponymy.map((hyponymy) => (
+                    <Button variant="ghost" colorScheme="cyan" size="sm">
+                      {hyponymy.label}
+                    </Button>
+                  ))}
+                </div>
               </Stack>
             </div>
           ) : (
@@ -244,11 +251,13 @@ export default function ContentDisplay() {
                 Instances 相关实例
               </h4>
               <Stack direction="row" spacing={2} className="mt-2">
-                {contentData.instances.map((instance) => (
-                  <Button variant="ghost" colorScheme="cyan" size="sm">
-                    {instance.label}
-                  </Button>
-                ))}
+                <div>
+                  {contentData.instances.map((instance) => (
+                    <Button variant="ghost" colorScheme="cyan" size="sm">
+                      {instance.label}
+                    </Button>
+                  ))}
+                </div>
               </Stack>
             </div>
           ) : (

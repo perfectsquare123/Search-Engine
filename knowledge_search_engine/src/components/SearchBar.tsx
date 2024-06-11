@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import MicIcon from "@mui/icons-material/Mic";
 import Image from "next/image";
 import { autoFill } from "./chineseAutoComplete";
@@ -32,11 +32,11 @@ export default function SearchBar() {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  //const router = useRouter();
   const [recognizing, setRecognizing] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [language, setLanguage] = useState("zh-CN");
   const suggestionListRef = useRef<HTMLUListElement | null>(null);
+  //const router = useRouter();
 
   useEffect(() => {
     if (!("webkitSpeechRecognition" in window)) {
@@ -100,9 +100,22 @@ export default function SearchBar() {
     setShowSuggestions(false);
   };
 
-  const handleSearch = () => {
-    if (query) {
-      //router.push(`/searchResults?q=${query}`);
+  const handleSearch = async () => {
+    // handle search
+    if (!query) return;
+
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/search", {
+        params: { q: query },
+      });
+
+      const results = response.data;
+      router.push({
+        pathname: "/searchResults",
+        query: { results: JSON.stringify(results) },
+      });
+    } catch (error) {
+      console.error("Error fetching search results:", error);
     }
   };
 
