@@ -1,5 +1,6 @@
 "use client";
 
+import SearchBar from "@/components/SearchBar";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
   Badge,
@@ -48,10 +49,22 @@ const contentData = {
       label: "概念名称 1",
     },
     {
-      id: "概念ID 1",
+      id: "概念ID 2",
       label: "概念名称 2",
     },
     // ...
+  ],
+  hypernymy: [
+    {
+      id: "上位关系ID 1",
+      label: "上位关系名称 1",
+    },
+  ],
+  hyponymy: [
+    {
+      id: "下位关系ID 1",
+      label: "下位关系名称 1",
+    },
   ],
   instances: [
     {
@@ -103,6 +116,10 @@ export default function ContentDisplay() {
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="flex flex-col items-center py-10">
+        <h1 className="text-5xl font-bold text-gray-900 mb-2">
+          Know<span className="text-6xl font-bold text-cyan-400">U</span>
+        </h1>
+        <SearchBar />
         <div className="w-full max-w-4xl mt-10 bg-white p-12 rounded-lg shadow-md">
           <Stack spacing={4} direction="row" alignItems="center">
             <h3 className="text-3xl font-bold text-cyan-900">
@@ -115,19 +132,39 @@ export default function ContentDisplay() {
             >
               {sourceName}
             </Badge>
+            {contentData.type == "instance" ? (
+              <Badge variant="subtle" boxSize="fit-content" colorScheme="cyan">
+                {contentData.type}
+              </Badge>
+            ) : (
+              <Badge
+                variant="subtle"
+                boxSize="fit-content"
+                colorScheme="purple"
+              >
+                {contentData.type}
+              </Badge>
+            )}
           </Stack>
 
-          <div className="mt-6">
-            <h4 className="text-xl font-bold text-gray-700">
-              Description 简介
-            </h4>
-            <p className="text-gray-600 mt-2">{contentData.description}</p>
-          </div>
+          {contentData.description.length > 0 ? (
+            <div className="mt-6">
+              <h4 className="text-xl font-bold text-gray-700">
+                Description 简介
+              </h4>
+              <p className="text-gray-600 mt-2">{contentData.description}</p>
+            </div>
+          ) : (
+            ""
+          )}
 
-          <div className="mt-6">
-            <h4 className="text-xl font-bold text-gray-700">Properties 属性</h4>
-            {contentData.properties ? (
-              contentData.properties.map((property) => (
+          {contentData.properties.length > 0 ? (
+            <div className="mt-6">
+              <h4 className="text-xl font-bold text-gray-700">
+                {" "}
+                Properties 属性
+              </h4>
+              {contentData.properties.map((property) => (
                 <TableContainer>
                   <Table>
                     <Tbody>
@@ -144,11 +181,11 @@ export default function ContentDisplay() {
                     </Tbody>
                   </Table>
                 </TableContainer>
-              ))
-            ) : (
-              <text> </text>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            ""
+          )}
 
           {contentData.concepts.length > 0 ? (
             <div className="mt-6">
@@ -159,6 +196,40 @@ export default function ContentDisplay() {
                 {contentData.concepts.map((concept) => (
                   <Button variant="ghost" colorScheme="cyan" size="sm">
                     {concept.label}
+                  </Button>
+                ))}
+              </Stack>
+            </div>
+          ) : (
+            ""
+          )}
+
+          {contentData.hypernymy.length > 0 ? (
+            <div className="mt-6">
+              <h4 className="text-xl font-bold text-gray-700">
+                hypernymy 上位关系列表
+              </h4>
+              <Stack direction="row" spacing={2} className="mt-2">
+                {contentData.hypernymy.map((hypernymy) => (
+                  <Button variant="ghost" colorScheme="cyan" size="sm">
+                    {hypernymy.label}
+                  </Button>
+                ))}
+              </Stack>
+            </div>
+          ) : (
+            ""
+          )}
+
+          {contentData.hyponymy.length > 0 ? (
+            <div className="mt-6">
+              <h4 className="text-xl font-bold text-gray-700">
+                hyponymy 下位关系列表
+              </h4>
+              <Stack direction="row" spacing={2} className="mt-2">
+                {contentData.hyponymy.map((hyponymy) => (
+                  <Button variant="ghost" colorScheme="cyan" size="sm">
+                    {hyponymy.label}
                   </Button>
                 ))}
               </Stack>

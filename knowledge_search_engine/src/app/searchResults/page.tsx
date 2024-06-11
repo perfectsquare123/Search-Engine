@@ -16,35 +16,34 @@ interface SearchResult {
   source: string;
   description: string;
   concepts: { id: string; label: string }[];
+  hypernymy: { id: string; label: string }[];
+  hyponymy: { id: string; label: string }[];
   instances: { id: string; label: string }[];
   url: string;
 }
 //dummy data
 const example = {
+  answer: "this is answer",
   content: [
     {
-      id: "bdi2464893",
+      id: "bdi2464891",
       label: "天气",
-      type: "instance",
-      source: "bd",
-      description:
-        "天气是指在较短时间内特定地区的 大气状况，出自太平天囯 [[bd4907785|洪仁玕]]《自传》。",
-    },
-    {
-      id: "bdi2464890",
-      label: "天气",
-      type: "instance",
-      source: "bd",
-      description:
-        "[[bd5103934|游戏王卡组]]系列之一。登场于新型卡包Deck Build Pack第1弹Spirit Warriors（DBSW）的系列。::;特色是使用连接怪兽或永续魔法·永续陷阱卡赋予相邻的「天气」效果怪兽以除外自身作为COST的干扰性效果，且「天气」效果怪兽本身就有作为「天气」效果COST除外则在下个回合的准备阶段特殊召唤的再生效果。",
-    },
-    {
-      id: "zhi3184",
-      label: "天气",
-      type: "instance",
+      type: "concept",
       source: "zh",
-      description:
-        ":;'''天气'''是大气状态的一种表征，反映大气是冷还是热、是干还是湿、是平静还是狂暴、是晴朗还是多云等等。Merriam-Webster Dictionary. Retrieved on 27 June 2008.绝大多数天气现象发生在[[zh26523]]之下的[[zh26522]]。Glossary of Meteorology. Retrieved on 27 June 2008.Glossary of Meteorology. Retrieved on 27 June 2008.天气通常指每天的温度和[[zh15946]]活动，而气候是指一段长时间内的平均大气状况。如果没有特别指明，“天气”一般指的是[[zh792254]]上的天气。",
+      description: "",
+      concepts: [],
+      hypernymy: [{ id: "bdc32484", label: "科学百科环境生态分类" }],
+      hyponymy: [
+        { id: "bdc9966", label: "自然现象" },
+        { id: "bdc3313", label: "自然" },
+      ],
+      instances: [
+        { id: "bdi7192065", label: "远古时代" },
+        { id: "bdi2507267", label: "太阳" },
+        { id: "bdi6403245", label: "能见度" },
+        { id: "bdi893002", label: "交通" },
+      ],
+      url: "https://baike.baidu.com/item/%E5%A4%A9%E6%B0%94%2F24449",
     },
     {
       id: "bdi2464891",
@@ -53,6 +52,67 @@ const example = {
       source: "bd",
       description:
         "[[bd2464891|天气]]是指某一个地区距离地表较近的大气层在短时间内的具体状态。而天气现象则是指发生在大气中的各种自然现象，即某瞬时内大气中各种气象要素（如 [[bd4682361|气温]]、 [[bd4681382|气压]]、 [[bd5128335|湿度]]、风、云、雾、雨、闪、雪、霜、雷、雹、霾等）空间分布的综合表现。::;天气过程就是一定地区的 [[bd2464990|天气现象]]随时间的变化过程。各种 [[bd2465006|天气系统]]都具有一定的空间尺度和时间尺度，而且各种尺度系统间相互交织、相互作用。许多天气系统的组合，构成大范围的天气形势，构成半球甚至全球的 [[bd2401722|大气环流]]。天气系统总是处在不断新生、发展和消亡过程中，在不同发展阶段有着其相对应的天气现象分布。",
+      concepts: [
+        { id: "bdc32484", label: "科学百科环境生态分类" },
+        { id: "bdc9966", label: "自然现象" },
+        { id: "bdc3313", label: "自然" },
+      ],
+      hypernymy: [],
+      hyponymy: [],
+      instances: [
+        { id: "bdi7192065", label: "远古时代" },
+        { id: "bdi2507267", label: "太阳" },
+        { id: "bdi6403245", label: "能见度" },
+        { id: "bdi893002", label: "交通" },
+      ],
+      url: "https://baike.baidu.com/item/%E5%A4%A9%E6%B0%94%2F24449",
+    },
+    {
+      id: "bdi2464893",
+      label: "天气",
+      type: "instance",
+      source: "bd",
+      description:
+        "天气是指在较短时间内特定地区的 大气状况，出自太平天囯 [[bd4907785|洪仁玕]]《自传》。",
+      concepts: [],
+      hypernymy: [],
+      hyponymy: [],
+      instances: [
+        { id: "bdi6909271", label: "诉衷情" },
+        { id: "bdi8172348", label: "黄庭坚" },
+        { id: "bdi4810184", label: "沙尘暴" },
+        { id: "bdi4701999", label: "水浒传" },
+      ],
+      url: "https://baike.baidu.com/item/%E5%A4%A9%E6%B0%94%2F332535",
+    },
+    {
+      id: "bdi2464890",
+      label: "天气",
+      type: "instance",
+      source: "bd",
+      description:
+        "[[bd5103934|游戏王卡组]]系列之一。登场于新型卡包Deck Build Pack第1弹Spirit Warriors（DBSW）的系列。::;特色是使用连接怪兽或永续魔法·永续陷阱卡赋予相邻的「天气」效果怪兽以除外自身作为COST的干扰性效果，且「天气」效果怪兽本身就有作为「天气」效果COST除外则在下个回合的准备阶段特殊召唤的再生效果。",
+      concepts: [{ id: "bdc25120", label: "娱乐" }],
+      hypernymy: [],
+      hyponymy: [],
+      instances: [{ id: "bdi5103934", label: "游戏王卡组" }],
+      url: "https://baike.baidu.com/item/%E5%A4%A9%E6%B0%94%2F21511882",
+    },
+    {
+      id: "bdi2464927",
+      label: "天气和气候",
+      type: "instance",
+      source: "bd",
+      description: "《天气和气候》是2008年电子工业出版社出版的图书。",
+      concepts: [
+        { id: "bdc18567", label: "工业书籍" },
+        { id: "bdc7948", label: "出版物" },
+        { id: "bdc17963", label: "书籍" },
+      ],
+      hypernymy: [],
+      hyponymy: [],
+      instances: [],
+      url: "https://baike.baidu.com/item/%E5%A4%A9%E6%B0%94%E5%92%8C%E6%B0%94%E5%80%99",
     },
     {
       id: "bdi2464983",
@@ -61,13 +121,60 @@ const example = {
       source: "bd",
       description:
         "天气气侯学是气候学的一个分支,是以天气学的观点和方法来研究气候形成及其变化规律的学科。天气气侯学主要研究长时期内平均环流、环流型式与天气系统相互作用以及大气环流与大范围气候异常的关系等问题,为提高某地区天气预报准确率和阐明气候形成理论提供重要依据。其研究工具主要为天气图和气压配置图。未来天气气侯学将会采取更多定量分析的方法。",
+      concepts: [
+        { id: "bdc32484", label: "科学百科环境生态分类" },
+        { id: "bdc27821", label: "非地理" },
+        { id: "bdc18653", label: "气候学" },
+        { id: "bdc17225", label: "大气科学" },
+        { id: "bdc10428", label: "地理学" },
+        { id: "bdc31911", label: "学科名" },
+      ],
+      hypernymy: [],
+      hyponymy: [],
+      instances: [
+        { id: "bdi7564534", label: "长期天气预报" },
+        { id: "bdi2215399", label: "圣彼得堡" },
+      ],
+      url: "https://baike.baidu.com/item/%E5%A4%A9%E6%B0%94%E6%B0%94%E5%80%99%E5%AD%A6",
     },
     {
-      id: "bdi2464927",
-      label: "天气和气候",
+      id: "bdi2477703",
+      label: "天然气",
       type: "instance",
       source: "bd",
-      description: "《天气和气候》是2008年电子工业出版社出版的图书。",
+      description:
+        "天然气是指自然界中天然存在的一切气体，包括 大气圈、 水圈、和 岩石圈中各种自然过程形成的气体（包括 油田气、气田气、 泥火山气、 煤层气和 生物生成气等）。::;而人们长期以来通用的“天然气”的定义，是从能量角度出发的 狭义定义，是指天然蕴藏于地层中的 [[bd5223992|烃]]类和非烃类气体的混合物。在 [[bd5776189|石油地质学]]中，通常指油田气和气田气。其组成以烃类为主，并含有非烃气体。",
+      concepts: [
+        { id: "bdc32485", label: "科学百科工程技术分类" },
+        { id: "bdc24480", label: "学科" },
+        { id: "bdc32485", label: "科学百科工程技术分类" },
+        { id: "bdc24480", label: "学科" },
+      ],
+      hypernymy: [],
+      hyponymy: [],
+      instances: [
+        { id: "bdi5775763", label: "石油" },
+        { id: "bdi5249132", label: "煤炭" },
+        { id: "bdi5248579", label: "煤" },
+        { id: "bdi5008654", label: "液化石油气" },
+      ],
+      url: "https://baike.baidu.com/item/%E5%A4%A9%E7%84%B6%E6%B0%94%2F36482",
+    },
+    {
+      id: "bdi248831",
+      label: "V天气",
+      type: "instance",
+      source: "bd",
+      description:
+        "《V天气》是一款集成了当今各大门户网站的天气栏目，软件大小是0.64 MB。",
+      concepts: [
+        { id: "bdc12187", label: "软件" },
+        { id: "bdc28962", label: "安卓软件" },
+      ],
+      hypernymy: [],
+      hyponymy: [],
+      instances: [],
+      url: "https://baike.baidu.com/item/V%E5%A4%A9%E6%B0%94",
     },
     {
       id: "bdi2484426",
@@ -75,30 +182,65 @@ const example = {
       type: "instance",
       source: "bd",
       description: "",
+      concepts: [
+        { id: "bdc17963", label: "书籍" },
+        { id: "bdc15571", label: "梦幻西游" },
+      ],
+      hypernymy: [],
+      hyponymy: [],
+      instances: [
+        { id: "bdi876183", label: "五雷轰顶" },
+        { id: "bdi7784404", label: "雷霆万钧" },
+        { id: "bdi2481551", label: "天神护体" },
+      ],
+      url: "https://baike.baidu.com/item/%E5%A4%A9%E7%BD%A1%E6%B0%94",
     },
     {
-      id: "zhi765951",
-      label: "BBC天气",
+      id: "bdi2464931",
+      label: "天气图",
       type: "instance",
-      source: "zh",
+      source: "bd",
       description:
-        "'''BBC天气'''（BBC Weather）是BBC的天气预报部门，现在是BBC新闻的一部分。BBC的气象主播为[[zh662244]]僱员 Met Office。BBC天气工作时间最长的气象主播是Michael Fish，他从1974年到2010年担任了36年的South East Today节目的气象主播。2013年8月23日，BBC宣布将中止和气象办公室的契约，以节省成本。",
+        "天气图是指填有各地同一时间 气象要素的特制地图，是目前气象部门分析和预报天气的一种重要工具。",
+      concepts: [
+        { id: "bdc32484", label: "科学百科环境生态分类" },
+        { id: "bdc22323", label: "科学" },
+        { id: "bdc22247", label: "气象" },
+        { id: "bdc17225", label: "大气科学" },
+        { id: "bdc14829", label: "天气学" },
+        { id: "bdc18649", label: "气象名词" },
+        { id: "bdc22323", label: "科学" },
+        { id: "bdc1542", label: "自然科学" },
+      ],
+      hypernymy: [],
+      hyponymy: [],
+      instances: [
+        { id: "bdi1016669", label: "传真" },
+        { id: "bdi4683351", label: "气象卫星" },
+        { id: "bdi2401722", label: "大气环流" },
+      ],
+      url: "https://baike.baidu.com/item/%E5%A4%A9%E6%B0%94%E5%9B%BE",
     },
     {
-      id: "zhi691063",
-      label: "天气瓶",
-      type: "instance",
-      source: "zh",
-      description:
-        "'''天气瓶'''，又称'''风暴瓶'''（'''Storm Glass'''），是一种欧洲曾在18世纪~19世纪时用于天气预报工具。密闭的[[zh21964]]容器中，装入数种化学物质组成的透明[[zh8660]]。根据外界温度、天气的改变，瓶内会展现出不同型态的结晶，预报天气的变化。近代已不用作天气预报工具，而转变为一种趣味性质的科学装饰。",
-    },
-    {
-      id: "zhi150123",
+      id: "bdi2245320",
       label: "坏天气",
       type: "instance",
-      source: "zh",
+      source: "bd",
       description:
-        "《'''坏天气'''》()为[[zh11708]]流行歌手[[zh73207]]所创作的单曲，收录在丹尼尔首张同名专辑《丹尼尔》，推出后成为加拿大单曲榜冠军。在欧洲，靠着可口可乐广告收录的关系，颇为传唱，在英国跃居英国单曲榜亚军。而后在美国推出后，攻佔告示牌流行榜榜首，成为同年告示牌流行榜冠军。::;《坏天气》一曲获得RIAA白金认证，并且在线上付费下载超过200万次。2005年8月2日到9日，在iTunes Store提供免费下载。丹尼尔借由本曲获得2007年[[zh20468]]最佳流行男歌手提名。告示牌选出《坏天气》为2006年流行音乐榜最棒的音乐。",
+        "坏天气为 孙燕姿的第二张专辑《 我要的幸福》中歌曲，于2000年12月7日发行。",
+      concepts: [
+        { id: "bdc16459", label: "音乐作品" },
+        { id: "bdc16459", label: "音乐作品" },
+      ],
+      hypernymy: [],
+      hyponymy: [],
+      instances: [
+        { id: "bdi3544941", label: "愚人的国度" },
+        { id: "bdi1933210", label: "同类" },
+        { id: "bdi534051", label: "世说心语" },
+        { id: "bdi4002036", label: "明日的记忆" },
+      ],
+      url: "https://baike.baidu.com/item/%E5%9D%8F%E5%A4%A9%E6%B0%94%2F6262",
     },
   ],
 };
@@ -175,7 +317,19 @@ export default function SearchResults() {
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="flex flex-col items-center py-10">
+        <h1 className="text-5xl font-bold text-gray-900 mb-2">
+          Know<span className="text-6xl font-bold text-cyan-400">U</span>
+        </h1>
         <SearchBar />
+
+        {example.answer.length > 0 ? (
+          <div className="w-full max-w-3xl mt-8 bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-xl text-zinc-800 mb-1">{example.answer}</h3>
+          </div>
+        ) : (
+          ""
+        )}
+
         <div className="w-full max-w-3xl mt-8 bg-white p-6 rounded-lg shadow-md">
           {example.content.map((result) => (
             <div key={result.id} className="mb-5">
@@ -184,27 +338,37 @@ export default function SearchResults() {
                   {result.label}
                 </h3>
                 {result.type ? (
-                  <Tag
-                    variant="subtle"
-                    colorScheme="cyan"
-                    boxSize="fit-content"
-                  >
-                    {result.type}
-                  </Tag>
+                  result.type == "instance" ? (
+                    <Tag
+                      variant="subtle"
+                      colorScheme="cyan"
+                      boxSize="fit-content"
+                    >
+                      {result.type}
+                    </Tag>
+                  ) : (
+                    <Tag
+                      variant="subtle"
+                      colorScheme="purple"
+                      boxSize="fit-content"
+                    >
+                      {result.type}
+                    </Tag>
+                  )
                 ) : (
                   ""
                 )}
               </Stack>
               <p className="text-gray-700 mt-4">{result.description}</p>
 
-              {result.concepts ? (
+              {result.concepts.length > 0 ? (
                 <div className="mt-5">
                   <Stack direction="row" spacing={2}>
-                    <h6 className="font-extralight text-gray-400 text-sm ml-4">
+                    <h6 className="font-extralight text-gray-500 text-sm ml-4">
                       Concepts 概念类型
                     </h6>
                     {result.concepts.map((concept) => (
-                      <Button variant="ghost" colorScheme="cyan" size="xs">
+                      <Button variant="ghost" colorScheme="blue" size="xs">
                         {concept.label}
                       </Button>
                     ))}
@@ -214,10 +378,44 @@ export default function SearchResults() {
                 ""
               )}
 
-              {result.instances ? (
+              {result.hypernymy.length > 0 ? (
+                <div className="mt-5">
+                  <Stack direction="row" spacing={2}>
+                    <h6 className="font-extralight text-gray-500 text-sm ml-4">
+                      hypernymy 上位关系列表
+                    </h6>
+                    {result.hypernymy.map((hypernymy) => (
+                      <Button variant="ghost" colorScheme="blue" size="xs">
+                        {hypernymy.label}
+                      </Button>
+                    ))}
+                  </Stack>
+                </div>
+              ) : (
+                ""
+              )}
+
+              {result.hyponymy.length > 0 ? (
+                <div className="mt-5">
+                  <Stack direction="row" spacing={2}>
+                    <h6 className="font-extralight text-gray-500 text-sm ml-4">
+                      hyponymy 下位关系列表
+                    </h6>
+                    {result.hyponymy.map((hyponymy) => (
+                      <Button variant="ghost" colorScheme="blue" size="xs">
+                        {hyponymy.label}
+                      </Button>
+                    ))}
+                  </Stack>
+                </div>
+              ) : (
+                ""
+              )}
+
+              {result.instances.length > 0 ? (
                 <div className="mt-4">
                   <Stack direction="row" spacing={2}>
-                    <h6 className="font-extralight text-gray-400 text-sm ml-4">
+                    <h6 className="font-extralight text-gray-500 text-sm ml-4">
                       Instances 实例
                     </h6>
                     {result.instances.map((instance) => (
@@ -231,10 +429,10 @@ export default function SearchResults() {
                 ""
               )}
 
-              {result.url ? (
+              {result.url.length > 0 ? (
                 <div className="mt-4">
                   <Stack direction="row" spacing={4}>
-                    <h6 className="font-extralight text-gray-400 text-sm ml-4">
+                    <h6 className="font-extralight text-gray-500 text-sm ml-4">
                       Source URL 出处链接
                     </h6>
 
