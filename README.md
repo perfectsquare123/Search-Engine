@@ -6,6 +6,7 @@
 npm install axios
 npm i @chakra-ui/react @chakra-ui/next-js @emotion/react @emotion/styled framer-motion
 npm i @chakra-ui/icons
+npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
 ```
 
 2. FrontEnd

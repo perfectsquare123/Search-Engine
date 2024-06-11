@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import NextLink from "next/link";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import MicIcon from "@mui/icons-material/Mic";
 import Image from "next/image";
 import { autoFill } from "./chineseAutoComplete";
@@ -36,7 +36,7 @@ export default function SearchBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [language, setLanguage] = useState("zh-CN");
   const suggestionListRef = useRef<HTMLUListElement | null>(null);
-  //const router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     if (!("webkitSpeechRecognition" in window)) {
@@ -101,7 +101,6 @@ export default function SearchBar() {
   };
 
   const handleSearch = async () => {
-    // handle search
     if (!query) return;
 
     try {

@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar";
 import { resourceLimits } from "worker_threads";
 import { Button, Divider, Link, Stack, Tag } from "@chakra-ui/react";
 import { subtle } from "crypto";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { useSearchParams } from "next/navigation";
 
 interface SearchResult {
   id: string;
@@ -251,19 +252,18 @@ const example = {
       url: "https://zh.wikipedia.org/wiki/Category:%E8%99%9B%E6%A7%8B%E7%86%8A",
     },
   ],
-  answer: "",
 };
 
 export default function SearchResults() {
-  // const router = useRouter();
-  // const { results } = router.query;
-  // const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const searchParams = useSearchParams();
+  const results = searchParams.get("results");
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
-  // useEffect(() => {
-  //   if (results) {
-  //     setSearchResults(JSON.parse(results as string));
-  //   }
-  // }, [results]);
+  useEffect(() => {
+    if (results) {
+      setSearchResults(JSON.parse(results));
+    }
+  }, [results]);
 
   return (
     <div className="min-h-screen bg-gray-100">
