@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import {
   Button,
@@ -35,12 +35,29 @@ export default function SearchBar() {
   const [recognizing, setRecognizing] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [language, setLanguage] = useState("zh-CN");
+  const suggestionListRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
     if (!("webkitSpeechRecognition" in window)) {
       console.error("Web Speech API is not supported by this browser.");
       return;
     }
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        suggestionListRef.current &&
+        !suggestionListRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const fetchEnglishSuggestions = async (query: string) => {
@@ -50,6 +67,7 @@ export default function SearchBar() {
         `https://api.datamuse.com/sug?s=${query}`
       );
       setSuggestions(response.data);
+      setShowSuggestions(true); // Open suggestions list when new suggestions are fetched
     } catch (error) {
       console.error("Error fetching suggestions:", error);
     }
@@ -63,6 +81,7 @@ export default function SearchBar() {
       );
       const data = JSON.parse(response.data.match(/callback\((.*)\)/)[1]);
       setSuggestions(data.s.map((term: string) => ({ word: term })));
+      setShowSuggestions(true); // Open suggestions list when new suggestions are fetched
     } catch (error) {
       console.error("Error fetching suggestions:", error);
     }
@@ -83,7 +102,7 @@ export default function SearchBar() {
   };
 
   const handleSuggestionClick = (suggestion: Suggestion) => {
-    setQuery(suggestion.term);
+    setQuery(suggestion.word);
     setShowSuggestions(false);
   };
 
@@ -130,7 +149,8 @@ export default function SearchBar() {
 
   return (
     <div className="relative w-full max-w-md mx-auto mt-5">
-      <div className="flex justify-center mb-4 bg-">
+      <div className="flex justify-center mb-4"></div>
+      <div className="flex justify-center mb-4">
         <RadioGroup onChange={setLanguage} value={language} colorScheme="cyan">
           <Stack direction="row" spacing={6}>
             <Radio value="zh-CN">
@@ -163,13 +183,16 @@ export default function SearchBar() {
         </Button>
       </Stack>
 
-      {suggestions.length > 0 && (
-        <ul className="absolute w-full mt-2 bg-white border border-gray-300 rounded-md shadow-lg">
+      {showSuggestions && suggestions.length > 0 && (
+        <ul
+          ref={suggestionListRef}
+          className="absolute w-full mt-2 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto"
+        >
           {suggestions.map((suggestion, index) => (
             <li
               key={index}
               className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-              onClick={() => setQuery(suggestion.word)}
+              onClick={() => handleSuggestionClick(suggestion)}
             >
               {suggestion.word}
             </li>
@@ -177,7 +200,6 @@ export default function SearchBar() {
         </ul>
       )}
 
-      <text className="text-slate-950">{query}</text>
       <div className="justify-center align-middle">
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
