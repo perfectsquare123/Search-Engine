@@ -37,3 +37,75 @@
 <img src="image/cn_autocompelte.png" alt="cn" height=300/>
 
 这个实现我们参考了这个 [github](https://github.com/namasikanam/Arouq/tree/master) 的实现方法。
+
+## 1.2 搜索结果列表展示页面
+
+当用户提交查询后，后端会返回搜索结果的列表。前端会将返回内容进行**结构化的信息呈现**。
+
+主要返回的信息如以下：
+
+```json
+{
+  answer: "",
+  content: [
+    {
+      id: "",
+      label: "",
+      type: "",
+      source: "",
+      description:
+        "",
+      concepts: [{ id: "", label: "" }, ...],
+      hypernymy: [{ id: "", label: "" }, ...],
+      hyponymy: [{ id: "", label: "" },...],
+      instances: [{ id: "", label: "" }, ...],
+      url: "",
+    },
+```
+
+若返回的信息里某一项的长度为零，那么我们就不会在前端展示那一项。
+
+以下是个返回实例(instance)列表的例子:
+
+<img src="image/instance.png" alt="instance" height=400/>
+
+以下是个返回概念(concept)列表的例子:
+就比如这里会出现上位关系列表和下为关系列表的内容，而没有出现简介有关的内容
+
+<img src="image/concept.png" alt="instance" height=400/>
+
+一下是个返回知识问答(answer)的例子：
+
+<img src="image/knowledge answer.png" alt="answer" height=400/>
+
+## 1.3 结果详情展示页面
+
+在 _“搜索结果列表展示页面”_ 里出现带有颜色的字体都以转化为按钮。当用户点击之后, 就会根据 id 向后端发送请求后 **跳转至** _“结果详情展示页面”_。
+
+这里展示的内容信息结构：
+
+```json
+{
+  answer: "",
+  content: [
+    {
+      id: "",
+      label: "",
+      type: "",
+      source: "",
+      description:
+        "",
+      concepts: [{ id: "", label: "" }, ...],
+      hypernymy: [{ id: "", label: "" }, ...],
+      hyponymy: [{ id: "", label: "" },...],
+      instances: [{ id: "", label: "" }, ...],
+      properties: [{ id: "", key: "", value: [] }, ...],
+      url: "",
+    },
+```
+
+和以上的不同是这里增加了`properties`这一项。
+
+以下是 _“搜索结果列表展示页面”_ 的内容样例：
+
+<img src="image/details.png" alt="details" height=400/>
