@@ -37,70 +37,66 @@ interface content {
 
 // dummy data
 const contentData = {
-  id: "bdc32052",
-  label: "三亚",
-  type: "concept",
-  source: "zh",
+  id: "bdi2464893",
+  label: "天气",
+  type: "instance",
+  source: "bd",
   description:
-    "三亚，地处北纬18度，位于中国海南岛最南端，是地球上迷人的风景地带，四季如夏，鲜花盛开，素有“东方夏威夷”之称，堪称中国最好的旅游城市之一。 三亚以美丽的海上风光出名，亚龙湾、大东海、三亚湾这三大海湾是三亚主要的滨海",
-  concepts: [
-    {
-      id: "概念ID 1",
-      label: "概念名称 1",
-    },
-    {
-      id: "概念ID 2",
-      label: "概念名称 2",
-    },
-
-    // ...
-  ],
-  hypernymy: [
-    {
-      id: "上位关系ID 1",
-      label: "上位关系名称 1",
-    },
-  ],
-  hyponymy: [
-    {
-      id: "下位关系ID 1",
-      label: "下位关系名称 1",
-    },
-  ],
+    "天气是指在较短时间内特定地区的 大气状况，出自太平天囯 [[bd4907785|洪仁玕]]《自传》。",
+  concepts: [],
+  hypernymy: [],
+  hyponymy: [],
   instances: [
-    {
-      id: "实例ID 1",
-      label: "实例名称 1",
-    },
-    {
-      id: "实例ID 2",
-      label: "实例名称 2",
-    },
-    {
-      id: "实例ID 3",
-      label: "实例名称 3",
-    },
+    { id: "bdi6909271", label: "诉衷情" },
+    { id: "bdi8172348", label: "黄庭坚" },
+    { id: "bdi4810184", label: "沙尘暴" },
+    { id: "bdi4701999", label: "水浒传" },
   ],
   properties: [
+    { id: "bdp1", key: "中文名", value: "天气" },
     {
-      id: "属性ID",
-      key: "时间",
-      value: ["2009年7月"],
+      id: "bdp662",
+      key: "基本解释",
+      value: "在较短时间内特定地区的 [[bdi2401463|大气]]状况",
     },
-    {
-      id: "属性ID",
-      key: "别名",
-      value: ["崖州", "鹿城", "等等"],
-    },
-    {
-      id: "属性ID",
-      key: "外文名",
-      value: ["Sanya"],
-    },
-    // ...
+    { id: "bdp9", key: "外文名", value: "weather" },
+    { id: "bdp2211", key: "泛指", value: "[[bdi5933964|空气]]" },
   ],
-  url: "http://baike.baidu.com/fenlei/%E4%B8%89%E4%BA%9A%E6%97%85%E6%B8%B8",
+  url: "https://baike.baidu.com/item/%E5%A4%A9%E6%B0%94%2F332535",
 };
+
+function parseDescription(description: string): JSX.Element[] {
+  const regex = /\[\[(.*?)\|(.*?)\]\]/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(description)) !== null) {
+    const [fullMatch, id, query] = match;
+    const index = match.index;
+
+    // Add text before the match
+    if (index > lastIndex) {
+      parts.push(description.substring(lastIndex, index));
+    }
+
+    // Add the link/button
+    parts.push(
+      <Button key={id} id={id} variant="ghost" colorScheme="green" size="sm">
+        {query}
+      </Button>
+    );
+
+    lastIndex = index + fullMatch.length;
+  }
+
+  // Add remaining text
+  if (lastIndex < description.length) {
+    parts.push(description.substring(lastIndex));
+  }
+
+  return parts;
+}
 
 var sourceName = "百度 Baidu";
 var sourceColour = "cyan";
@@ -153,7 +149,9 @@ export default function ContentDisplay() {
               <h4 className="text-xl font-bold text-gray-700">
                 Description 简介
               </h4>
-              <p className="text-gray-600 mt-2">{contentData.description}</p>
+              <p className="text-gray-600 mt-2">
+                {parseDescription(contentData.description)}
+              </p>
             </div>
           ) : (
             ""
@@ -173,9 +171,9 @@ export default function ContentDisplay() {
                         <Td>{property.key}</Td>
                         <Td>
                           <div className="flex flex-col align-middle">
-                            {property.value.map((propValue) => (
-                              <text className="text-gray-600">{propValue}</text>
-                            ))}
+                            <text className="text-gray-600">
+                              {parseDescription(property.value)}
+                            </text>
                           </div>
                         </Td>
                       </Tr>

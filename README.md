@@ -9,6 +9,12 @@ npm i @chakra-ui/icons
 npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
 ```
 
+or
+
+```bash
+npm install
+```
+
 2. FrontEnd
 
 ```bash
