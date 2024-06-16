@@ -790,14 +790,16 @@ function parseDescription(description: string): JSX.Element[] {
 }
 
 export default function SearchResults() {
-  const searchParams = useSearchParams();
-  const results = searchParams.get("results");
-  const [searchResults, setSearchResults] = useState<SearchData[]>([]);
+  // const searchParams = useSearchParams();
+  // const results = searchParams.get("results");
+  const storedResults = sessionStorage.getItem('searchResults');
+  const results = storedResults ? JSON.parse(storedResults) : [];
+  const [searchResults, setSearchResults] = useState<SearchData>(example);
   const router = useRouter();
 
   useEffect(() => {
     if (results) {
-      setSearchResults(JSON.parse(results));
+      setSearchResults(results);
     }
   }, [results]);
 
@@ -815,16 +817,16 @@ export default function SearchResults() {
         </h1>
         <SearchBar />
         <div>
-          {example.answer.length > 0 ? (
+          {searchResults.answer.length > 0 ? (
             <div className="w-full max-w-3xl mt-8 bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl text-zinc-800 mb-1">{example.answer}</h3>
+              <h3 className="text-xl text-zinc-800 mb-1">{searchResults.answer}</h3>
             </div>
           ) : (
             ""
           )}
 
           <div className="w-full max-w-3xl mt-8 bg-white p-6 rounded-lg shadow-md">
-            {example.content.map((result) => (
+            {searchResults.content.map((result) => (
               <div key={result.id} className="mb-5">
                 <Stack direction="row" spacing={3} alignItems="center">
                   <h3 className="text-2xl font-bold text-cyan-700 mb-1 cursor-pointer">
