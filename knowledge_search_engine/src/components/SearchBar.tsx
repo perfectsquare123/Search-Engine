@@ -100,24 +100,27 @@ export default function SearchBar() {
     setShowSuggestions(false);
   };
 
+  const handleClickTitle = async () => {
+    router.push("/");
+  };
+
   const handleSearch = async () => {
-    //if (!query) return;
+    if (!query) return;
 
-    router.push("/searchResults");
-    //   try {
-    //     const response = await axios.get("http://127.0.0.1:8000/search", {
-    //       params: { q: query },
-    //     });
+    //router.push("/searchResults");
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/search", {
+        params: { q: query },
+      });
 
-    //     const results = response.data;
-    //     router.push({
-    //       pathname: "/searchResults",
-    //       query: { results: JSON.stringify(results) },
-    //     });
-    //   } catch (error) {
-    //     console.error("Error fetching search results:", error);
-    //   }
-    //
+      const results = response.data;
+      router.push({
+        pathname: "/searchResults",
+        query: { results: JSON.stringify(results) },
+      });
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
   };
 
   const startRecognition = () => {

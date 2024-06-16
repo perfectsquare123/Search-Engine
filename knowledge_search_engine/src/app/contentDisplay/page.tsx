@@ -6,7 +6,6 @@ import {
   Badge,
   Button,
   Divider,
-  Link,
   Stack,
   Tag,
   Table,
@@ -20,8 +19,11 @@ import {
   TableContainer,
   UnorderedList,
   ListItem,
+  Link,
 } from "@chakra-ui/react";
 import { Concert_One } from "next/font/google";
+import { useRouter } from "next/navigation";
+import NextLink from "next/link";
 
 interface content {
   id: string;
@@ -102,6 +104,8 @@ var sourceName = "百度 Baidu";
 var sourceColour = "cyan";
 
 export default function ContentDisplay() {
+  const router = useRouter();
+
   if (contentData.source == "zh") {
     sourceName = "中文维基";
     sourceColour = "green";
@@ -110,12 +114,21 @@ export default function ContentDisplay() {
     sourceColour = "purple";
   }
 
+  const handleClickTitle = async () => {
+    router.push("/");
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="flex flex-col items-center py-10">
-        <h1 className="text-5xl font-bold text-gray-900 mb-2">
-          Know<span className="text-6xl font-bold text-cyan-400">U</span>
-        </h1>
+        <NextLink href="/" passHref>
+          <Link>
+            <h1 className="text-5xl font-bold text-gray-900 mb-2">
+              Know<span className="text-6xl font-bold text-cyan-400">U</span>
+            </h1>
+          </Link>
+        </NextLink>
+
         <SearchBar />
         <div className="w-full max-w-4xl mt-10 bg-white p-12 rounded-lg shadow-md">
           <Stack spacing={4} direction="row" alignItems="center">
