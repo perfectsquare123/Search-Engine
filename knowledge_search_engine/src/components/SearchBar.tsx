@@ -114,7 +114,7 @@ export default function SearchBar() {
       });
 
       const results = response.data;
-      sessionStorage.setItem('searchResults', JSON.stringify(results));
+      sessionStorage.setItem("searchResults", JSON.stringify(results));
       router.push("/searchResults");
     } catch (error) {
       console.error("Error fetching search results:", error);
